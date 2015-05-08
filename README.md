@@ -19,7 +19,8 @@ features:
 - no catcoon infighting
 - catcoons are much tougher (but deal no more damage)
 - shouldn't be killed by frogs anymore
-- 10x boost to staying power of gifts
+- 5x boost to staying power of gifts
 
 future:
 - when wounded catcoon goes into down state--requires gift to get back up
+

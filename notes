@@ -1,0 +1,9 @@
+? scripts\tuning.lua:
+CATCOON_LOYALTY_PER_ITEM = total_day_time*.1
+? scripts\tuning.lua:
+CATCOON_LOYALTY_MAXTIME = total_day_time
+? scripts\prefabs\catcoon.lua:
+inst.hairball_friend_interval = math.random(2,4) -- Jumpstart the hairball timer (slot machine machine time!)
+
+
+http://forums.kleientertainment.com/topic/36748-mod-api-updates-api-version-6-may-23-2014/?p=486895
