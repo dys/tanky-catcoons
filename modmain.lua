@@ -15,6 +15,19 @@ STRINGS.CHARACTERS.GENERIC.DESCRIBE.BERK = "Cute!"
 
 STRINGS.NAMES.BERK_CROWN = "Berk's Crown"
 STRINGS.RECIPE_DESC.BERK_CROWN = "Berk's Crown"
+
+RECIPETABS = GLOBAL.RECIPETABS
+Recipe = GLOBAL.Recipe
+TECH = GLOBAL.TECH
+Ingredient = GLOBAL.Ingredient
+
+local berk_crown = GLOBAL.Recipe("berk_crown",
+{ 
+	Ingredient("petals", 1),
+},  
+RECIPETABS.DRESS, TECH.NONE)
+berk_crown.atlas = "images/inventoryimages/berk_crown.xml"
+
 -- 
 -- STRINGS.CHARACTERS.GENERIC.DESCRIBE.BERK_CROWN = 
 -- 
@@ -109,10 +122,6 @@ if DEBUGGING_MOD then
   GLOBAL.CHEATS_ENABLED = true
 	GLOBAL.require("debugkeys")
 	GLOBAL.require("consolecommands")
-	GLOBAL.AddGameDebugKey(GLOBAL.KEY_1, function(down)
-		local shamb = GLOBAL.DebugSpawn("shambler")
-		shamb.components.shamblermodes:SetKind("observer")
-	end)
   AddSimPostInit(GiveBerkCrown)
   --AddSimPostInit(GiveBerk)
 end

@@ -1,4 +1,4 @@
--- most of this is copied from 366720084 and chester_eyebone.lua
+-- most of this is copied from chester_eyebone.lua
 
 local assets = {
   Asset("ANIM", "anim/hat_flower.zip"),
@@ -8,6 +8,7 @@ local assets = {
 
 local prefabs = {
 }
+
 
 local SPAWN_DIST = 30
 
@@ -59,7 +60,7 @@ local function RebindBerk(inst, berk)
   berk = berk or TheSim:FindFirstEntityWithTag("berk")
   if berk then
 
-	inst:ListenForEvent("death", function() inst:OnBerk() end, berk)
+	inst:ListenForEvent("death", function() inst:OnBerkDeath() end, berk)
 
 	if berk.components.follower.leader ~= inst then
 	  berk.components.follower:SetLeader(inst)

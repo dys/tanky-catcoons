@@ -1,3 +1,5 @@
+-- berk starts out as a regular catcoon.lua
+
 require("brains/catcoonbrain")
 require "stategraphs/SGcatcoon"
 
