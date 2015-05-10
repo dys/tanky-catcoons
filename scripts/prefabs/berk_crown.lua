@@ -144,7 +144,6 @@ end
 
 
 local function OnLoad(inst, data)
-
   if data and data.respawntimeremaining then
 	inst.respawntime = data.respawntimeremaining + GetTime()
   end

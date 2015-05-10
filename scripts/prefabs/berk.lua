@@ -264,8 +264,8 @@ local function OnGetItemFromPlayer(inst, giver, item)
     	inst.SoundEmitter:PlaySound("dontstarve/common/makeFriend")
     	inst.last_hairball_time = GetTime()
     	inst.hairball_friend_interval = math.random(2,4) -- Jumpstart the hairball timer (slot machine time!)
-		giver.components.leader:AddFollower(inst)
-        inst.components.follower:AddLoyaltyTime(TUNING.KINGCATCOON_LOYALTY_PER_ITEM)
+--		giver.components.leader:AddFollower(inst)
+ --       inst.components.follower:AddLoyaltyTime(TUNING.BERK_LOYALTY_PER_ITEM)
         if not inst.sg:HasStateTag("busy") then 
         	inst:FacePoint(giver.Transform:GetWorldPosition())
         	inst.sg:GoToState("pawground") 
@@ -334,7 +334,7 @@ local function fn()
 	inst:AddComponent("follower")
 	inst:ListenForEvent("stopfollowing", OnStopFollowing)
     inst:ListenForEvent("startfollowing", OnStartFollowing)
-	inst.components.follower.maxfollowtime = TUNING.KINGCATCOON_LOYALTY_MAXTIME
+	inst.components.follower.maxfollowtime = TUNING.BERK_LOYALTY_MAXTIME
 
 	inst:AddComponent("inventory")
 
@@ -366,7 +366,7 @@ local function fn()
     inst.components.sleeper:SetSleepTest(SleepTest)
 
 	inst:AddComponent("locomotor")
-	inst.components.locomotor.walkspeed = TUNING.KINGCATCOON_SPEED
+	inst.components.locomotor.walkspeed = TUNING.BERK_SPEED
 
 	inst:ListenForEvent("rainstart", function(it)
 		inst:DoTaskInTime(math.random(2,6), function(inst) 

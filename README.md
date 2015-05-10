@@ -1,15 +1,19 @@
-A tanky catcoon friend
+Berk: King of the Catcoons.
 
-attract: craft a garland, have it in your inventory
+Attract him with Berk's crown.
 
 features:
-- no catcoon infighting
-- berk is tougher than regular catcoons
-- 5x boost to staying power of gifts
+- berk is faster and tougher than regular catcoons
+
+
+- no catcoon infighting (affects all catcoons!)
 
 future:
-- craft something else
-- check for existing entity ( GetEntity? FindEntity? )
+- recipe for crown
+- give crown to berk instead of keeping in inventory
 - disengage targets if player moves away
-- when wounded catcoon goes into down state--requires gift to get back up
+- give berk gifts to boost him in different ways!
+  - food: revive downed berk
+  - petal: coughs up something for you and enables small sanity boost aura
+  - firefly: glows in the dark!
 
