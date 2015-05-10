@@ -47,7 +47,7 @@ STRINGS.RECIPE_DESC.BERK_CROWN = "Berk's Crown"
 local function NewCatcoonRetarget(inst)
     return FindEntity(inst, TUNING.CATCOON_TARGET_DIST,
         function(guy)
-        	if guy:HasTag("catcoon") then
+        	if (guy:HasTag("catcoon") or guy:HasTag("spiderwhisperer")) then
         		return false	
         	else
             	return 	((guy:HasTag("monster") or guy:HasTag("smallcreature")) and 
@@ -77,6 +77,31 @@ AddPrefabPostInit("catcoon", ReplaceRetargetFunction)
 -- Debugging help stuff
 -- 
 
+-- Spawn berk!
+function GiveBerk(player)
+  local berk = GLOBAL.TheSim:FindFirstEntityWithTag("berk")
+  if not berk then
+    print("Giving Berk")
+    local x, y, z = player.Transform:GetWorldPosition()
+    local creature = GLOBAL.SpawnPrefab("forest/animals/berk")
+    creature.Transform:SetPosition( x, y, z )
+  else
+    print("Found Berk, not giving him.")
+  end
+end
+
+-- Give the crown!
+function GiveBerkCrown(player)
+  local crown = GLOBAL.TheSim:FindFirstEntityWithTag("berk_crown")
+  if not crown then
+    print("Giving Berk's crown")
+    local x, y, z = player.Transform:GetWorldPosition()
+    local hat = GLOBAL.SpawnPrefab("berk_crown")
+    hat.Transform:SetPosition( x, y, z )
+  else
+    print("Found Berk's Crown already.")
+  end
+end
 local DEBUGGING_MOD = true
 GLOBAL.DEBUGGING_MOD = DEBUGGING_MOD
 
@@ -92,22 +117,3 @@ if DEBUGGING_MOD then
   --AddSimPostInit(GiveBerk)
 end
 
--- Spawn berk!
-function GiveBerk(player)
-  local berk = GLOBAL.TheSim:FindFirstEntityWithTag("berk")
-  if not berk then
-    local x, y, z = player.Transform:GetWorldPosition()
-    local creature = GLOBAL.SpawnPrefab("forest/animals/berk")
-    creature.Transform:SetPosition( x, y, z )
-  end
-end
-
--- Give the crown!
-function GiveBerkCrown(player)
-  local crown = GLOBAL.TheSim:FindFirstEntityWithTag("berk_crown")
-  if not crown then
-    local x, y, z = player.Transform:GetWorldPosition()
-    local hat = GLOBAL.SpawnPrefab("berk_crown")
-    hat.Transform:SetPosition( x, y, z )
-  end
-end
