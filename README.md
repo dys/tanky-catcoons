@@ -16,4 +16,4 @@ Future:
 - make him do more interesting things
 
 Usage:
-- Install to mods directory (Steam\steamapps\common\dont_starve\mods or maybe Users\<user>\Documents\Klei\DoNotStarve)
+- Install to mods directory (Steam\steamapps\common\dont_starve\mods or maybe Users\\<user>\Documents\Klei\DoNotStarve)
