@@ -13,18 +13,6 @@ local SPAWN_DIST = 30
 
 local trace = function() end
 
-local function RebuildTile(inst)
-  if inst.components.inventoryitem:IsHeld() then
-	local owner = inst.components.inventoryitem.owner
-	inst.components.inventoryitem:RemoveFromOwner(true)
-	if owner.components.container then
-	  owner.components.container:GiveItem(inst)
-	elseif owner.components.inventory then
-	  owner.components.inventory:GiveItem(inst)
-	end
-  end
-end
-
 local function GetSpawnPoint(pt)
   local theta = math.random() * 2 * PI
   local radius = SPAWN_DIST
@@ -53,7 +41,7 @@ local function SpawnBerk(inst)
 	end
 
   else
-	-- this is not fatal, they can try again in a new location by picking up the bone again
+	-- this is not fatal, they can try again in a new location by picking up the crown again
 	trace("berk_crown - SpawnBerk: Couldn't find a suitable spawn point for berk")
   end
 end
@@ -71,8 +59,6 @@ local function RebindBerk(inst, berk)
   berk = berk or TheSim:FindFirstEntityWithTag("berk")
   if berk then
 
-	inst.AnimState:PlayAnimation("idle_loop", true)
-	inst.components.inventoryitem:ChangeImageName(inst.openEye)
 	inst:ListenForEvent("death", function() inst:OnBerk() end, berk)
 
 	if berk.components.follower.leader ~= inst then
@@ -101,8 +87,6 @@ local function StartRespawn(inst, time)
   if respawntime then
 	inst.respawntask = inst:DoTaskInTime(respawntime, function() RespawnBerk(inst) end)
 	inst.respawntime = GetTime() + respawntime
-	inst.AnimState:PlayAnimation("dead", true)
-	inst.components.inventoryitem:ChangeImageName(inst.closedEye)
   end
 end
 
@@ -114,9 +98,6 @@ local function FixBerk(inst)
   inst.fixtask = nil
   --take an existing berk if there is one
   if not RebindBerk(inst) then
-	inst.AnimState:PlayAnimation("dead", true)
-	inst.components.inventoryitem:ChangeImageName(inst.closedEye)
-
 	if inst.components.inventoryitem.owner then
 	  local time_remaining = 0
 	  local time = GetTime()
@@ -150,6 +131,7 @@ local function OnLoad(inst, data)
 end
 
 local function GetStatus(inst)
+
   trace("berk_crown - GetStatus")
   if inst.respawntask then
 	return "WAITING"
@@ -197,12 +179,13 @@ local function fn(Sim)
   inst:AddTag("berk_crown")
 
   inst:AddComponent("inspectable")
+  inst:AddTag("irreplaceable")
 
   inst:AddComponent("inventoryitem")
   inst.components.inventoryitem.imagename = "berk_crown"
   inst.components.inventoryitem.atlasname = "images/inventoryimages/berk_crown.xml"
 
-  inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory) -- from chester_eyebone.lua
+  inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
 
   inst:AddComponent("equippable")
   inst.components.equippable.equipslot = EQUIPSLOTS.HEAD
@@ -212,6 +195,11 @@ local function fn(Sim)
   inst:AddComponent("dapperness")
   inst.components.dapperness.dapperness = TUNING.DAPPERNESS_TINY
 
+  inst.OnLoad = OnLoad
+  inst.OnSave = OnSave
+  inst.OnBerkDeath = OnBerkDeath
+
+  inst.fixtask = inst:DoTaskInTime(1, function() FixBerk(inst) end)
 
   print("Finished building")
   return inst
