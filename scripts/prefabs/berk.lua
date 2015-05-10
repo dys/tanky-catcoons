@@ -200,7 +200,7 @@ end
 local function RetargetFn(inst)
     return FindEntity(inst, TUNING.CATCOON_TARGET_DIST,
         function(guy)
-        	if guy:HasTag("catcoon") then
+        	if (guy:HasTag("catcoon") or guy:HasTag("spiderwhisperer")) then
         		return false	
         	else
             	return 	((guy:HasTag("monster") or guy:HasTag("smallcreature")) and 
@@ -264,8 +264,6 @@ local function OnGetItemFromPlayer(inst, giver, item)
     	inst.SoundEmitter:PlaySound("dontstarve/common/makeFriend")
     	inst.last_hairball_time = GetTime()
     	inst.hairball_friend_interval = math.random(2,4) -- Jumpstart the hairball timer (slot machine time!)
---		giver.components.leader:AddFollower(inst)
- --       inst.components.follower:AddLoyaltyTime(TUNING.BERK_LOYALTY_PER_ITEM)
         if not inst.sg:HasStateTag("busy") then 
         	inst:FacePoint(giver.Transform:GetWorldPosition())
         	inst.sg:GoToState("pawground") 
@@ -317,6 +315,9 @@ local function fn()
 
 	inst:AddComponent("health")
 	inst.components.health:SetMaxHealth(TUNING.CATCOON_LIFE)
+  inst.components.health:SetMaxHealth(TUNING.CHESTER_HEALTH)
+  inst.components.health:StartRegen(TUNING.CHESTER_HEALTH_REGEN_AMOUNT, TUNING.CHESTER_HEALTH_REGEN_PERIOD)
+  inst:AddTag("noauradamage")
 
 	inst:AddComponent("combat")
 	inst.components.combat:SetDefaultDamage(TUNING.CATCOON_DAMAGE)
@@ -346,14 +347,6 @@ local function fn()
     inst.last_hairball_time = GetTime()
     inst.hairball_friend_interval = math.random(TUNING.MIN_HAIRBALL_FRIEND_INTERVAL, TUNING.MAX_HAIRBALL_FRIEND_INTERVAL)
     inst.hairball_neutral_interval = math.random(TUNING.MIN_HAIRBALL_NEUTRAL_INTERVAL, TUNING.MAX_HAIRBALL_NEUTRAL_INTERVAL)
-
-    inst:AddComponent("playerprox")
-    inst.components.playerprox:SetDist(3,4)
-    inst.components.playerprox:SetOnPlayerNear(function(inst)
-    	if inst.components.sleeper:IsAsleep() then
-    		inst.components.sleeper:WakeUp()
-    	end
-    end)
 
 	inst:AddComponent("sleeper")
     --inst.components.sleeper:SetResistance(3)
