@@ -311,7 +311,7 @@ local function fn()
 	inst:AddTag("smallcreature")
 	inst:AddTag("animal")
 	inst:AddTag("catcoon")
-	inst:AddTag("kingcatcoon")
+	inst:AddTag("berk")
 
 	inst:AddComponent("inspectable")
 

@@ -1,6 +1,3 @@
-GLOBAL.CHEATS_ENABLED = true
-GLOBAL.require( 'debugkeys' )
-
 PrefabFiles = {
 		"berk",
 		"berk_crown",
@@ -76,18 +73,41 @@ end
 AddPrefabPostInit("catcoon", ReplaceRetargetFunction)
 
 
--- Spawn the starting catcoon!
-function GiveBerk(player)
-	local x, y, z = player.Transform:GetWorldPosition()
-	local creature = GLOBAL.SpawnPrefab("forest/animals/berk")
-	creature.Transform:SetPosition( x, y, z )
+--
+-- Debugging help stuff
+-- 
+
+local DEBUGGING_MOD = true
+GLOBAL.DEBUGGING_MOD = DEBUGGING_MOD
+
+if DEBUGGING_MOD then
+  GLOBAL.CHEATS_ENABLED = true
+	GLOBAL.require("debugkeys")
+	GLOBAL.require("consolecommands")
+	GLOBAL.AddGameDebugKey(GLOBAL.KEY_1, function(down)
+		local shamb = GLOBAL.DebugSpawn("shambler")
+		shamb.components.shamblermodes:SetKind("observer")
+	end)
+  AddSimPostInit(GiveBerkCrown)
+  --AddSimPostInit(GiveBerk)
 end
---AddSimPostInit(GiveBerk)
+
+-- Spawn berk!
+function GiveBerk(player)
+  local berk = GLOBAL.TheSim:FindFirstEntityWithTag("berk")
+  if not berk then
+    local x, y, z = player.Transform:GetWorldPosition()
+    local creature = GLOBAL.SpawnPrefab("forest/animals/berk")
+    creature.Transform:SetPosition( x, y, z )
+  end
+end
 
 -- Give the crown!
 function GiveBerkCrown(player)
-	local x, y, z = player.Transform:GetWorldPosition()
-	local hat = GLOBAL.SpawnPrefab("berk_crown")
-	hat.Transform:SetPosition( x, y, z )
+  local crown = GLOBAL.TheSim:FindFirstEntityWithTag("berk_crown")
+  if not crown then
+    local x, y, z = player.Transform:GetWorldPosition()
+    local hat = GLOBAL.SpawnPrefab("berk_crown")
+    hat.Transform:SetPosition( x, y, z )
+  end
 end
-AddSimPostInit(GiveBerkCrown)

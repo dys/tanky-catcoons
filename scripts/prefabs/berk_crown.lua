@@ -33,6 +33,7 @@ local function onunequip(inst, owner)
         end
 end
 
+
 local function fn(Sim)
 	local inst = CreateEntity()
 	local trans = inst.entity:AddTransform()
@@ -45,6 +46,7 @@ local function fn(Sim)
 	anim:PlayAnimation("anim")
 
     inst:AddTag("hat")
+    inst:AddTag("berk_crown")
 
     inst:AddComponent("inspectable")
 
@@ -52,7 +54,7 @@ local function fn(Sim)
     inst.components.inventoryitem.imagename = "berk_crown"
 	inst.components.inventoryitem.atlasname = "images/inventoryimages/berk_crown.xml"
 
-	--	inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory) -- from chester_eyebone.lua
+	--inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory) -- from chester_eyebone.lua
 
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.HEAD
