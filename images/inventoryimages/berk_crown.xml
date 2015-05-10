@@ -1,0 +1,6 @@
+<Atlas>
+		<Texture filename="berk_crown.tex" />
+		<Elements>
+				<Element name="berk_crown.tex" u1="0.687744140625" u2="0.718505859375" v1="0.68798828125" v2="0.74951171875" />
+		</Elements>
+</Atlas>

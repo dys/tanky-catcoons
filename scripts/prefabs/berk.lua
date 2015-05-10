@@ -194,10 +194,13 @@ local function KeepTargetFn(inst, target)
 	end
 end
 
+--
+-- The following should mirror the changes in modmain.lua's NewCatcoonRetarget function
+-- 
 local function RetargetFn(inst)
     return FindEntity(inst, TUNING.CATCOON_TARGET_DIST,
         function(guy)
-        	if (guy:HasTag("catcoon") or guy:HasTag("kingcatcoon")) then
+        	if guy:HasTag("catcoon") then
         		return false	
         	else
             	return 	((guy:HasTag("monster") or guy:HasTag("smallcreature")) and 
@@ -280,6 +283,16 @@ local function OnRefuseItem(inst, item)
     end
 end
 
+local function OnStopFollowing(inst) 
+    print("berk - OnStopFollowing")
+    inst:RemoveTag("companion") 
+end
+
+local function OnStartFollowing(inst) 
+    print("berk - OnStartFollowing")
+    inst:AddTag("companion") 
+end
+
 local function fn()
 	local inst = CreateEntity()
 	local trans = inst.entity:AddTransform()
@@ -298,6 +311,7 @@ local function fn()
 	inst:AddTag("smallcreature")
 	inst:AddTag("animal")
 	inst:AddTag("catcoon")
+	inst:AddTag("kingcatcoon")
 
 	inst:AddComponent("inspectable")
 
@@ -318,7 +332,9 @@ local function fn()
     inst.components.lootdropper:SetChanceLootTable('catcoon') 
 
 	inst:AddComponent("follower")
-    inst.components.follower.maxfollowtime = TUNING.KINGCATCOON_LOYALTY_MAXTIME
+	inst:ListenForEvent("stopfollowing", OnStopFollowing)
+    inst:ListenForEvent("startfollowing", OnStartFollowing)
+	inst.components.follower.maxfollowtime = TUNING.KINGCATCOON_LOYALTY_MAXTIME
 
 	inst:AddComponent("inventory")
 
@@ -372,4 +388,4 @@ local function fn()
 	return inst
 end
 
-return Prefab("creatures/kingcatcoon", fn, assets, prefabs)
+return Prefab("creatures/berk", fn, assets, prefabs)

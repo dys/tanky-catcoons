@@ -1,26 +1,15 @@
 A tanky catcoon friend
 
-obtain: put the right item in your inventory (like chester)
-
-features:
-- not hostile to other catcoons
-- doesn't require constant feeding of petals
-
-cons:
-- eats up inventory slot
-
-
-
-Tanky catcoons
-
-obtain: give a catcoon a gift normally
+attract: craft a garland, have it in your inventory
 
 features:
 - no catcoon infighting
-- catcoons are much tougher (but deal no more damage)
-- shouldn't be killed by frogs anymore
+- berk is tougher than regular catcoons
 - 5x boost to staying power of gifts
 
 future:
+- craft something else
+- check for existing entity ( GetEntity? FindEntity? )
+- disengage targets if player moves away
 - when wounded catcoon goes into down state--requires gift to get back up
 

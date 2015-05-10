@@ -1,12 +1,56 @@
+GLOBAL.CHEATS_ENABLED = true
+GLOBAL.require( 'debugkeys' )
+
 PrefabFiles = {
-		"kingcatcoon",
+		"berk",
+		"berk_crown",
 }
 
--- set catcoons non-hostile to each-other - 27241699
+
+-- aren't globals fun?
+TUNING.KINGCATCOON_LOYALTY_PER_ITEM = TUNING.TOTAL_DAY_TIME * .5
+TUNING.KINGCATCOON_LOYALTY_MAXTIME = TUNING.TOTAL_DAY_TIME * 5
+TUNING.KINGCATCOON_SPEED = 4
+
+local STRINGS = GLOBAL.STRINGS
+STRINGS.NAMES.BERK = "Berk, King of the Catcoons"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.BERK = "Cute!"
+
+STRINGS.NAMES.BERK_CROWN = "Berk's Crown"
+STRINGS.RECIPE_DESC.BERK_CROWN = "Berk's Crown"
+-- 
+-- STRINGS.CHARACTERS.GENERIC.DESCRIBE.BERK_CROWN = 
+-- 
+-- STRINGS.CHARACTERS.WILLOW.DESCRIBE.BERK_CROWN = 
+-- 
+-- STRINGS.CHARACTERS.WOLFGANG.DESCRIBE.BERK_CROWN = 
+-- 
+-- STRINGS.CHARACTERS.WENDY.DESCRIBE.BERK_CROWN = 
+-- 
+-- STRINGS.CHARACTERS.WX78.DESCRIBE.BERK_CROWN = 
+-- 
+-- STRINGS.CHARACTERS.WICKERBOTTOM.DESCRIBE.BERK_CROWN = 
+-- 
+-- STRINGS.CHARACTERS.WOODIE.DESCRIBE.BERK_CROWN = 
+-- 
+-- STRINGS.CHARACTERS.WAXWELL.DESCRIBE.BERK_CROWN = 
+-- 
+-- if IsDLCEnabled(REIGN_OF_GIANTS) then 
+-- 
+-- 	STRINGS.CHARACTERS.WATHGRITHR.DESCRIBE.BERK_CROWN = 
+-- 
+-- 	STRINGS.CHARACTERS.WEBBER.DESCRIBE.BERK_CROWN = 
+
+
+--
+-- The following should mirror the changes in berk.lua's RetargetFn function
+-- 
+
+-- Set catcoons non-hostile to each-other
 local function NewCatcoonRetarget(inst)
     return FindEntity(inst, TUNING.CATCOON_TARGET_DIST,
         function(guy)
-        	if (guy:HasTag("catcoon") or guy:HasTag("kingcatcoon")) then
+        	if guy:HasTag("catcoon") then
         		return false	
         	else
             	return 	((guy:HasTag("monster") or guy:HasTag("smallcreature")) and 
@@ -23,32 +67,27 @@ local function NewCatcoonRetarget(inst)
         end)
 end
 
-
--- replace the retarget function
+-- This replaces the catcoon targeting function with one that makes them ignore each other (see above).
 local function ReplaceRetargetFunction(prefab)
 	if prefab:HasTag("catcoon") and prefab.components.combat.targetfn and prefab.components.SetRetargetFunction then
 		prefab.components.combat:SetRetargetFunction(2, NewCatcoonRetarget)
 	end
 end
-
-
--- spawn the starting catcoon!
-function GiveKingCatcoon(player)
-	local x, y, z = player.Transform:GetWorldPosition()
-	local creature = GLOBAL.SpawnPrefab("forest/animals/kingcatcoon")
-	creature.Transform:SetPosition( x, y, z )
-end
-
--- AddSimPostInit(GiveKingCatcoon)
 AddPrefabPostInit("catcoon", ReplaceRetargetFunction)
 
-TUNING.KINGCATCOON_LOYALTY_PER_ITEM = TUNING.TOTAL_DAY_TIME * .5
-TUNING.KINGCATCOON_LOYALTY_MAXTIME = TUNING.TOTAL_DAY_TIME * 5
-TUNING.KINGCATCOON_SPEED = 4
 
-local STRINGS = GLOBAL.STRINGS
-STRINGS.NAMES.KINGCATCOON = "Berk, King of the Catcoons"
-STRINGS.CHARACTERS.GENERIC.DESCRIBE.KINGCATCOON = "Cute!"
+-- Spawn the starting catcoon!
+function GiveBerk(player)
+	local x, y, z = player.Transform:GetWorldPosition()
+	local creature = GLOBAL.SpawnPrefab("forest/animals/berk")
+	creature.Transform:SetPosition( x, y, z )
+end
+--AddSimPostInit(GiveBerk)
 
-GLOBAL.CHEATS_ENABLED = true
-GLOBAL.require( 'debugkeys' )
+-- Give the crown!
+function GiveBerkCrown(player)
+	local x, y, z = player.Transform:GetWorldPosition()
+	local hat = GLOBAL.SpawnPrefab("berk_crown")
+	hat.Transform:SetPosition( x, y, z )
+end
+AddSimPostInit(GiveBerkCrown)

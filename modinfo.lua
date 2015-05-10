@@ -1,4 +1,4 @@
-name = "King Catcoon"
+name = "_King Catcoon"
 description = "Will you make your new catcoon friend King of the Forest?"
 author = "dys"
 version = "1.0"
